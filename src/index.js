@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     }
 
     // url regex by https://github.com/Cryogenetics
-    const urlRegex = /^(https?:\/\/)?medal.tv\/games\/.*\/clips?\/[\w\d-_]*(\/[\w\d-_]*)?$/
+    const urlRegex = /^(https?:\/\/)?medal.tv\/games\/.*\/clips?(\/[\w\d-_]+){1,2}$/
     const isValid = urlRegex.test(body.url);
     if (!isValid) {
         res.body = {
