@@ -14,9 +14,9 @@ router.post('/', async (req, res) => {
         return
     }
 
-    // need to check for medal in the regex later
+    // url regex by https://github.com/Cryogenetics
     const urlRegex = /^(https?:\/\/)?medal.tv\/games\/.*\/clips?\/[\w\d-_]*(\/[\w\d-_]*)?$/
-    const isValid = urlRegex.test(body.url) && body.url.includes('medal.tv')
+    const isValid = urlRegex.test(body.url);
     if (!isValid) {
         res.body = {
             success: false,
@@ -28,14 +28,17 @@ router.post('/', async (req, res) => {
     // fixes links
     const url = body.url.replace(/clips\/(.*?)\/.*/, 'clip/$1')
 
+    // Create a variable with the Medal URL, and my CORS proxy.
     const newUrl = `https://corsthing.paintbrush.workers.dev/${url}`
 
-    // Fetch the new URL, and get the HTML
+    // fetch the response of the page, and get the HTML
     const response = await fetch(newUrl)
     const html = await response.text()
 
+    // regex to match the video tag
     const match = html.match(/og:video" content="(.*?)"/)
 
+    // send it back to the user
     res.body = {
         success: true,
         url: match[1],
