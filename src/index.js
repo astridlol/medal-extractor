@@ -39,7 +39,6 @@ router.post('/', async (req, res) => {
     }
 })
 
-// Listen Cloudflare Workers Fetch Event
 addEventListener('fetch', event => {
     event.respondWith(router.handle(event))
 })

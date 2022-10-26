@@ -8,7 +8,6 @@
         "format": "prettier --write '**/*.{js,css,json,md}'"
     },
     "author": "Astrid",
-    "license": "MIT",
     "devDependencies": {
         "prettier": "^1.17.0"
     },
