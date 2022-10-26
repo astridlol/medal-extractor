@@ -14,9 +14,9 @@ router.post('/', async (req, res) => {
         return
     }
 
-    // create a regex to see if the url is valid
+    // need to check for medal in the regex later
     const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
-    const isValid = urlRegex.test(body.url)
+    const isValid = urlRegex.test(body.url) && body.url.includes('medal.tv')
     if (!isValid) {
         res.body = {
             success: false,
@@ -25,7 +25,10 @@ router.post('/', async (req, res) => {
         return
     }
 
-    const newUrl = `https://corsthing.paintbrush.workers.dev/${body.url}`
+    // fixes links
+    const url = body.url.replace(/clips\/(.*?)\/.*/, 'clip/$1')
+
+    const newUrl = `https://corsthing.paintbrush.workers.dev/${url}`
 
     // Fetch the new URL, and get the HTML
     const response = await fetch(newUrl)
