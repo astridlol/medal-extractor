@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     }
 
     // need to check for medal in the regex later
-    const urlRegex = /^(https?:\/\/)?medal.tv\/games\/.*\/clips?\/.*$/
+    const urlRegex = /^(https?:\/\/)?medal.tv\/games\/.*\/clips?\/[\w\d]*(\/[\w\d]*)?$/
     const isValid = urlRegex.test(body.url) && body.url.includes('medal.tv')
     if (!isValid) {
         res.body = {
