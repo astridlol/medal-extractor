@@ -3,7 +3,6 @@ const router = new Router()
 
 router.cors()
 
-let lastRequest;
 
 router.post('/', handleRequest)
 
@@ -87,6 +86,5 @@ async function handleRequest(req, res) {
 }
 
 addEventListener('fetch', event => {
-    lastRequest = event
     event.respondWith(router.handle(event.request))
 })
