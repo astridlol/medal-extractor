@@ -5,3 +5,6 @@ workers_dev = true
 route = ""
 zone_id = ""
 compatibility_date = "2022-10-25"
+kv_namespaces = [
+  { binding = "KEYS", id = "PROD_ID", preview_id = "PREVIEW_ID" },
+]
