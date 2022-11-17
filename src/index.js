@@ -42,6 +42,16 @@ async function handleRequest(req, res) {
     const buildPath = await KEYS.get("pBuild") ?? "zjTnnG61Ze5UKZs2YM16f"
     // convert links into format that is used by medal's clip data api
     const url = body.url.replace('medal.tv', `medal.tv/_next/data/${buildPath}/en`).replace("/clip/", "/clips/").replace(/(\?.*)/, "") + ".json"
+
+    // check if url is cached
+    if(await KEYS.get(url)) {
+        res.body = {
+            success: true,
+            url: await KEYS.get(url),
+        }
+        return
+    }
+
     // Create a variable with the Medal URL, and my CORS proxy.
     const newUrl = `https://corsthing.paintbrush.workers.dev/${url}`
     // fetch the response of the page, and get the HTML
@@ -79,6 +89,8 @@ async function handleRequest(req, res) {
     const directURL = getHighestQuality(clipData) ?? "Couldn't find a video URL"
     // send it back to the user
     KEYS.put("errors", "0")
+    //probably a better way to cache this, but it works
+    KEYS.put(url, directURL) // cache the url
     res.body = {
         success: true,
         url: directURL
